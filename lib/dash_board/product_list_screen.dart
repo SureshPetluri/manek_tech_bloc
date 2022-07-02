@@ -32,7 +32,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
     if (_scrollController.offset >= scroll) {
       reachEnd = false;
       setState(() {});
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 1));
 
       setState(() {
         totalRecords = totalRecords + 5;
