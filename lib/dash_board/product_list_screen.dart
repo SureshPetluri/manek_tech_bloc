@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:manek_tech/model/local_storage_model.dart';
 import 'package:manek_tech/mycart/mycart_screen.dart';
+import 'package:manek_tech/utils/utils.dart';
 import '../model/product_listing_model.dart';
 import '../themes/themes.dart';
 import 'product_list_bloc.dart';
@@ -61,19 +60,27 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Center(child: Text("Shopping Mall")),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: Icon(
-                Icons.shopping_cart_outlined,
-                size: 30,
+          title:  Center(child: Text("Shopping Mall",style:LocalStorage.buildTextStyle(appBar: "appBar"),)),
+          actions:  [
+            InkWell(
+              child: const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 30,
+                ),
               ),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyCartScreen()),
+                );
+              },
             )
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.only(left: 18.0, right: 18, top: 40),
+          padding: const EdgeInsets.only(left: 18.0, right: 18, top: 25),
           child: BlocProvider(
             create: (_) => _newsBloc,
             child: BlocListener<ProductListBloc, productListState>(
@@ -105,6 +112,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ));
   }
+
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
 
@@ -138,7 +146,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               width: 150, // MediaQuery.of(context).size.height,
                               decoration: _buildContainerBoxDecoration(),
                               child: Image.network(
-                                model.data?[index].featuredImage ?? " ",
+                                model.data?[index].featuredImage ?? "assets/images/emptypng.png",
                                 fit: BoxFit.fitHeight,
                               )),
                           Container(
@@ -157,7 +165,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   child: SizedBox(
                                     width: 100,
                                     child: Text(
-                                      model.data?[index].title ?? "",
+                                      model.data?[index].title ?? "",style: LocalStorage.buildTextStyle(),
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
                                       maxLines: 1,
@@ -180,26 +188,26 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                 ),
                 onTap: () {
-                  //cartList = getListDeviceFromStorage();
                   int q = 1;
                   for (int i=0;i<cartList.length;i++) {
-                    if (cartList[i].productName == model.data?[index].title) {
+                    if (cartList[i].id == model.data?[index].id) {
                     q =  cartList[i].quantity ?? 1;
                       q += 1;
                       cartList.removeAt(i);
-
                     }
                   }
+                  cartList = LocalStorage.getListDeviceFromStorage();
                   cartList.add(LocalStorageCartModel(
+                      id: model.data?[index].id,
                       price: model.data?[index].price,
                       productImage: model.data?[index].featuredImage,
                       productName: model.data?[index].title,
                       quantity: q));
-                  box.remove("localCartData");
+
                   box.write("localCartData", cartList);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyCartScreen()),
+                    MaterialPageRoute(builder: (context) => const MyCartScreen()),
                   );
                 },
               )),
@@ -216,17 +224,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
     ]);
   }
 
-  List<LocalStorageCartModel> getListDeviceFromStorage() {
-    if (box.read("localCartData") is List<LocalStorageCartModel>) {
-      return box.read("localCartData");
-    } else {
-      List<dynamic>? lst = box.read("localCartData");
-
-      List<LocalStorageCartModel>? tempListElse =
-          lst?.map((e) => LocalStorageCartModel.fromJson(e)).toList();
-      return tempListElse ?? [];
-    }
-  }
 
   BoxDecoration _buildContainerBoxDecoration() {
     return BoxDecoration(

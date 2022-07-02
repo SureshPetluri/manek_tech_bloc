@@ -5,9 +5,9 @@ class ApiProvider {
   final String getURL =
       "http://205.134.254.135/~mobile/MtProject/public/api/product_list.php";
 
-  Future<ProductListingModel> getCardData() async {
+  Future<ProductListingModel> getCardData(int pageNumber) async {
     final queryParams = {
-      'page': 2,
+      'page': pageNumber,
       'perPage': 5,
     };
 
@@ -31,22 +31,6 @@ class ApiProvider {
       throw Exception('Failed to load medicine');
     }
   }
-  // Future<DashBoardModel> getCardData() async {
-  //   final queryParams = {
-  //     'param1': 'one',
-  //     'param2': 'two',
-  //   };
-  //     Response res = await http.get(Uri.parse(getURL,));
-  //
-  //     if (res.statusCode == 200) {
-  //       var medicine = dashBoardModelFromJson(res.body);
-  //       print("dfgjdkgjdkgjdkfjhdkjvb.....${medicine.data?[0]?.id}");
-  //       return medicine;
-  //     } else {
-  //       throw Exception('Failed to load medicine');
-  //     }
-  //
-  // }
 
 }
 

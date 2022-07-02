@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>ProductListBloc()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: ThemeColors.primaryColor,

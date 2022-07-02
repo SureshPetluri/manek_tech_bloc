@@ -8,4 +8,6 @@ abstract class ProductListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetProductList extends ProductListEvent {}
+class GetProductList extends ProductListEvent {
+  int number = 1;
+}

@@ -12,12 +12,9 @@ class ProductListBloc extends Bloc<ProductListEvent, productListState> {
     on<GetProductList>((event, emit) async {
       try {
         emit(ProductListLoading());
-        final mList = await apiRepository.fetchCartList();
+        final mList = await apiRepository.fetchCartList(event.number);
         print("mList.....$mList");
         emit(ProductListLoaded(mList));
-        // if (mList.error != null) {
-        //   emit(CartError(mList.error));
-        // }
       } on NetworkError {
         emit(const ProductListError("Failed to fetch data. is your device online?"));
       }

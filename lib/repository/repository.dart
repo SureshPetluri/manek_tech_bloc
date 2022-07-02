@@ -7,7 +7,7 @@ import '../api_provider/api_provider.dart';
 class ApiRepository {
   final _provider = ApiProvider();
 
-  Future<ProductListingModel> fetchCartList() {
-    return _provider.getCardData();
+  Future<ProductListingModel> fetchCartList(int number) {
+    return _provider.getCardData(number);
   }
 }
