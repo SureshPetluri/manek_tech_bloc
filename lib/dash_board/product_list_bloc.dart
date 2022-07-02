@@ -2,24 +2,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../api_provider/api_provider.dart';
 import '../repository/repository.dart';
-import 'dash_board_event.dart';
-import 'dash_board_state.dart';
+import 'product_list_event.dart';
+import 'product_list_state.dart';
 
-class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartInitial()) {
+class ProductListBloc extends Bloc<ProductListEvent, productListState> {
+  ProductListBloc() : super(ProductListInitial()) {
     final ApiRepository apiRepository = ApiRepository();
 
-    on<GetCartList>((event, emit) async {
+    on<GetProductList>((event, emit) async {
       try {
-        emit(CartLoading());
+        emit(ProductListLoading());
         final mList = await apiRepository.fetchCartList();
         print("mList.....$mList");
-        emit(CartLoaded(mList));
+        emit(ProductListLoaded(mList));
         // if (mList.error != null) {
         //   emit(CartError(mList.error));
         // }
       } on NetworkError {
-        emit(const CartError("Failed to fetch data. is your device online?"));
+        emit(const ProductListError("Failed to fetch data. is your device online?"));
       }
     });
   }

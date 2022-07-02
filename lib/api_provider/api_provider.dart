@@ -1,12 +1,12 @@
 import 'package:http/http.dart';
-import '../model/dash_board_model.dart';
+import '../model/product_listing_model.dart';
 import 'package:dio/dio.dart';
 
 class ApiProvider {
   final String getURL =
       "http://205.134.254.135/~mobile/MtProject/public/api/product_list.php";
 
-  Future<DashBoardModel> getCardData() async {
+  Future<ProductListingModel> getCardData() async {
     final queryParams = {
       'page': 1,
       'perPage': 5,
@@ -22,7 +22,7 @@ class ApiProvider {
         queryParameters: queryParams,
       );
       print("medicine in api.....${res.data}");
-      DashBoardModel medicine = dashBoardModelFromJson(res.data);
+      ProductListingModel medicine = dashBoardModelFromJson(res.data);
 
       print("medicine in api.....$medicine");
       print("dfgjdkgjdkgjdkfjhdkjvb.....${medicine.data?[0]?.id}");

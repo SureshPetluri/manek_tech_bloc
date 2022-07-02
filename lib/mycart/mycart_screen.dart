@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:manek_tech/model/dash_board_model.dart';
+import 'package:manek_tech/model/product_listing_model.dart';
 import '../themes/themes.dart';
 
-class DashBoardDetailScreen extends StatelessWidget {
-   DashBoardDetailScreen(this.data, {Key? key} ) : super(key: key);
-  Datum? data;
+class MyCartScreen extends StatelessWidget {
+ const  MyCartScreen(this.data, {Key? key} ) : super(key: key);
+ final Datum? data;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-DashBoardModel dashBoardModelFromJson(String str) => DashBoardModel.fromJson(json.decode(str));
+ProductListingModel dashBoardModelFromJson(String str) => ProductListingModel.fromJson(json.decode(str));
 
-String dashBoardModelToJson(DashBoardModel data) => json.encode(data.toJson());
+String dashBoardModelToJson(ProductListingModel data) => json.encode(data.toJson());
 
-class DashBoardModel {
-  DashBoardModel({
+class ProductListingModel {
+  ProductListingModel({
     this.status,
     this.message,
     this.totalRecord,
@@ -23,7 +23,7 @@ class DashBoardModel {
   int? totalPage;
   List<Datum>? data;
 
-  factory DashBoardModel.fromJson(Map<String, dynamic> json) => DashBoardModel(
+  factory ProductListingModel.fromJson(Map<String, dynamic> json) => ProductListingModel(
     status: json["status"],
     message: json["message"],
     totalRecord: json["totalRecord"],

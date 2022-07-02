@@ -1,13 +1,13 @@
 
 
-import 'package:manek_tech/model/dash_board_model.dart';
+import 'package:manek_tech/model/product_listing_model.dart';
 
 import '../api_provider/api_provider.dart';
 
 class ApiRepository {
   final _provider = ApiProvider();
 
-  Future<DashBoardModel> fetchCartList() {
+  Future<ProductListingModel> fetchCartList() {
     return _provider.getCardData();
   }
 }

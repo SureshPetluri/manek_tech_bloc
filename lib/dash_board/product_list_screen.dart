@@ -1,67 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:manek_tech/dash_board_detail/dash_board_detail_screen.dart';
-
-import '../model/dash_board_model.dart';
+import 'package:manek_tech/mycart/mycart_screen.dart';
+import '../model/product_listing_model.dart';
 import '../themes/themes.dart';
-import 'dash_board_bloc.dart';
-import 'dash_board_event.dart';
-import 'dash_board_state.dart';
+import 'product_list_bloc.dart';
+import 'product_list_event.dart';
+import 'product_list_state.dart';
 
-class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({Key? key}) : super(key: key);
+class ProductListScreen extends StatefulWidget {
+  const ProductListScreen({Key? key}) : super(key: key);
 
   @override
-  State<DashBoardScreen> createState() => _DashBoardScreenState();
+  State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
-class _DashBoardScreenState extends State<DashBoardScreen> {
-  final CartBloc _newsBloc = CartBloc();
-  ScrollController _scrollController = ScrollController();
-  bool loading = false, allLoaded = false;
+class _ProductListScreenState extends State<ProductListScreen> {
+  final ProductListBloc _newsBloc = ProductListBloc();
+  final ScrollController _scrollController = ScrollController();
+  bool loading = false, allLoaded = false, reachEnd = true;
 
   List<String> items = [];
-  List<DashBoardModel> listModel = [];
+  List<ProductListingModel> listModel = [];
+  dynamic totalRecords = 0;
+
+  _listener() async {
+    final scroll = _scrollController.position.minScrollExtent;
+    if (_scrollController.offset >= scroll) {
+      reachEnd = false;
+      setState(() {});
+      await Future.delayed(const Duration(seconds: 3));
+
+      setState(() {
+        totalRecords = totalRecords + 5;
+      });
+    } else {
+      reachEnd = true;
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
-    _newsBloc.add(GetCartList());
-    ScrollController().addListener(() {
-      if (_scrollController.offset >=
-              _scrollController.position.maxScrollExtent) {
-       // mockFetch();
-        loading=true;
-        print("sdsssdfdwsc");
-      }else{
-        print("else else");
-      }
-    });
+    _newsBloc.add(GetProductList());
+    totalRecords = 7;
     super.initState();
   }
 
-  mockFetch() async {
-    if (allLoaded) {
-      return;
-    }
-    setState(() {
-      loading = true;
-    });
-    await Future.delayed(const Duration(milliseconds: 500));
-    List<String> newData = items.length >= 60
-        ? []
-        : List.generate(20, (index) => "List Item ${index + items.length}");
-    if (newData.isNotEmpty) {
-      items.addAll(newData);
-    }
-    setState(() {
-      loading = false;
-      allLoaded = newData.isEmpty;
-    });
-  }
-
   @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
+  void didChangeDependencies() {
+    _scrollController.addListener(_listener);
+    super.didChangeDependencies();
   }
 
   @override
@@ -83,9 +71,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           padding: const EdgeInsets.only(left: 18.0, right: 18, top: 40),
           child: BlocProvider(
             create: (_) => _newsBloc,
-            child: BlocListener<CartBloc, CartState>(
+            child: BlocListener<ProductListBloc, productListState>(
               listener: (context, state) {
-                if (state is CartError) {
+                if (state is ProductListError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.message!),
@@ -93,17 +81,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   );
                 }
               },
-              child: BlocBuilder<CartBloc, CartState>(
+              child: BlocBuilder<ProductListBloc, productListState>(
                 builder: (context, state) {
-                  if (state is CartInitial) {
+                  if (state is ProductListInitial) {
                     return _buildLoading();
-                  } else if (state is CartLoading) {
+                  } else if (state is ProductListLoading) {
                     return _buildLoading();
-                  } else if (state is CartLoaded) {
-                    listModel.add(state.dashBoardModel);
-                    print("listModel $listModel");
+                  } else if (state is ProductListLoaded) {
                     return buildProductShowGridView(state.dashBoardModel);
-                  } else if (state is CartError) {
+                  } else if (state is ProductListError) {
                     return Container();
                   } else {
                     return Container();
@@ -115,18 +101,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         ));
   }
 
-  Widget _buildLoading() => Center(child: CircularProgressIndicator());
+  Widget _buildLoading() => const Center(child: CircularProgressIndicator());
 
-  Stack buildProductShowGridView(DashBoardModel model) {
+  Stack buildProductShowGridView(ProductListingModel model) {
     return Stack(children: [
       GridView.builder(
           controller: _scrollController,
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
-              childAspectRatio: 3 / 3.6,
+              childAspectRatio: 4 / 5,
               crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
-          itemCount: model.data?.length,
+              mainAxisSpacing: 30),
+          itemCount: totalRecords <= model.data?.length
+              ? totalRecords
+              : model.data?.length,
           itemBuilder: (context, index) => InkWell(
                 child: Container(
                   decoration: _buildContainerBoxDecoration(),
@@ -181,32 +169,31 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ),
                   ),
                 ),
                 onTap: () {
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            DashBoardDetailScreen(model.data?[index])),
+                            MyCartScreen(model.data?[index])),
                   );
                 },
               )),
-     if(loading)...[
-       Positioned(
-           left: 0,
-           bottom: 0,
-           child: Container(
-             height: 80,
-            // width: constraints.maxWidth,
-             child: _buildLoading(),
-           ))
-     ],
-
+      reachEnd == false && totalRecords <= model.totalRecord
+          ? Positioned(
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: SizedBox(
+                height: 80,
+                child: _buildLoading(),
+              ))
+          : const SizedBox(),
     ]);
   }
 
