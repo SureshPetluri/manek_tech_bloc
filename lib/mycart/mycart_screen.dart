@@ -51,7 +51,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
         itemCount: cartList.length,
         itemBuilder: (context, index) => InkWell(
             child: Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
               child: Column(
                 children: [
                   Card(
