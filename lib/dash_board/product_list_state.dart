@@ -1,23 +1,23 @@
 import 'package:equatable/equatable.dart';
 import 'package:manek_tech/model/product_listing_model.dart';
 
-abstract class productListState extends Equatable {
-  const productListState();
+abstract class ProductListState extends Equatable {
+  const ProductListState();
 
   @override
   List<Object?> get props => [];
 }
 
-class ProductListInitial extends productListState {}
+class ProductListInitial extends ProductListState {}
 
-class ProductListLoading extends productListState {}
+class ProductListLoading extends ProductListState {}
 
-class ProductListLoaded extends productListState {
+class ProductListLoaded extends ProductListState {
   final ProductListingModel dashBoardModel;
   const ProductListLoaded(this.dashBoardModel);
 }
 
-class ProductListError extends productListState {
+class ProductListError extends ProductListState {
   final String? message;
   const ProductListError(this.message);
 }

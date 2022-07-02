@@ -21,7 +21,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
     cartList = LocalStorage.getListDeviceFromStorage();
   }
 
-  quantityGetting() {
+  int quantityGetting() {
     int totalQuantity = 0;
     for (int i = 0; i < cartList.length; i++) {
       totalQuantity += cartList[i].quantity ?? 0;
@@ -29,7 +29,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
     return totalQuantity;
   }
 
-  totalPrice() {
+  int totalPrice() {
     int totalPrice = 0;
     for (int i = 0; i < cartList.length; i++) {
       totalPrice += cartList[i].quantity! * cartList[i].price!;
@@ -41,7 +41,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Center(child: Text("My Cart",style: LocalStorage.buildTextStyle(appBar:"appBar"),)),
+        title: Center(
+            child: Text(
+          "My Cart",
+          style: LocalStorage.buildTextStyle(appBar: "appBar"),
+        )),
       ),
       body: ListView.builder(
         itemCount: cartList.length,
@@ -66,7 +70,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             height: MediaQuery.of(context).size.width * 0.3,
                             width: MediaQuery.of(context).size.width * 0.35,
                             child: Image.network(
-                              cartList[index].productImage ?? "assets/images/emptypng.png",
+                              cartList[index].productImage ??
+                                  "assets/images/emptypng.png",
                               fit: BoxFit.fitHeight,
                             )),
                         SizedBox(
@@ -77,24 +82,31 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    bottom: 8.0, left: 14),
-                                child: Text(cartList[index].productName ?? "",style: LocalStorage.buildTextStyle(),),
+                                    bottom: 8.0, left: 14.0),
+                                child: Text(
+                                  cartList[index].productName ?? "",
+                                  style: LocalStorage.buildTextStyle(),
+                                ),
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 8.0, left: 14),
-                                    child: Text("Price",style:LocalStorage.buildTextStyle(),),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8.0, left: 14),
+                                    child: Text(
+                                      "Price",
+                                      style: LocalStorage.buildTextStyle(),
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        bottom: 8.0, right: 18),
+                                        bottom: 8.0, right: 18.0),
                                     child: Text(
-                                        "\$${cartList[index].quantity! * cartList[index].price!}",style:LocalStorage.buildTextStyle()),
+                                        "\$${cartList[index].quantity! * cartList[index].price!}",
+                                        style: LocalStorage.buildTextStyle()),
                                   ),
                                 ],
                               ),
@@ -102,16 +114,18 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 8.0, left: 14),
-                                    child: Text("Quantity",style:LocalStorage.buildTextStyle()),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 8.0, left: 14),
+                                    child: Text("Quantity",
+                                        style: LocalStorage.buildTextStyle()),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         bottom: 8.0, right: 18),
                                     child: Text(
-                                        "${cartList[index].quantity ?? 1}",style:LocalStorage.buildTextStyle()),
+                                        "${cartList[index].quantity ?? 1}",
+                                        style: LocalStorage.buildTextStyle()),
                                   ),
                                 ],
                               ),
@@ -140,8 +154,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
         height: 50,
         color: ThemeColors.lightBlueColor,
         child: ListTile(
-          leading: Text("Total Items: ${quantityGetting()}",style:LocalStorage.buildTextStyle()),
-          trailing: Text("GrandTotal :   ${totalPrice()}",style:LocalStorage.buildTextStyle()),
+          leading: Text("Total Items: ${quantityGetting()}",
+              style: LocalStorage.buildTextStyle()),
+          trailing: Text("GrandTotal :   ${totalPrice()}",
+              style: LocalStorage.buildTextStyle()),
         ),
       ),
     );

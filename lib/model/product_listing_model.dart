@@ -1,12 +1,10 @@
-// To parse this JSON data, do
-//
-//     final dashBoardModel = dashBoardModelFromJson(jsonString);
-
 import 'dart:convert';
 
-ProductListingModel dashBoardModelFromJson(String str) => ProductListingModel.fromJson(json.decode(str));
+ProductListingModel dashBoardModelFromJson(String str) =>
+    ProductListingModel.fromJson(json.decode(str));
 
-String dashBoardModelToJson(ProductListingModel data) => json.encode(data.toJson());
+String dashBoardModelToJson(ProductListingModel data) =>
+    json.encode(data.toJson());
 
 class ProductListingModel {
   ProductListingModel({
@@ -23,21 +21,22 @@ class ProductListingModel {
   int? totalPage;
   List<Datum>? data;
 
-  factory ProductListingModel.fromJson(Map<String, dynamic> json) => ProductListingModel(
-    status: json["status"],
-    message: json["message"],
-    totalRecord: json["totalRecord"],
-    totalPage: json["totalPage"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
+  factory ProductListingModel.fromJson(Map<String, dynamic> json) =>
+      ProductListingModel(
+        status: json["status"],
+        message: json["message"],
+        totalRecord: json["totalRecord"],
+        totalPage: json["totalPage"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "totalRecord": totalRecord,
-    "totalPage": totalPage,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-  };
+        "status": status,
+        "message": message,
+        "totalRecord": totalRecord,
+        "totalPage": totalPage,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
@@ -62,24 +61,24 @@ class Datum {
   DateTime? createdAt;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    slug: json["slug"],
-    title: json["title"],
-    description: json["description"],
-    price: json["price"],
-    featuredImage: json["featured_image"],
-    status: json["status"],
-    createdAt: DateTime.parse(json["created_at"]),
-  );
+        id: json["id"],
+        slug: json["slug"],
+        title: json["title"],
+        description: json["description"],
+        price: json["price"],
+        featuredImage: json["featured_image"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "slug": slug,
-    "title": title,
-    "description": description,
-    "price": price,
-    "featured_image": featuredImage,
-    "status": status,
-    "created_at": createdAt?.toIso8601String(),
-  };
+        "id": id,
+        "slug": slug,
+        "title": title,
+        "description": description,
+        "price": price,
+        "featured_image": featuredImage,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+      };
 }

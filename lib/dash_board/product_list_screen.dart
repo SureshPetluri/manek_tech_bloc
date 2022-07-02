@@ -60,8 +60,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title:  Center(child: Text("Shopping Mall",style:LocalStorage.buildTextStyle(appBar: "appBar"),)),
-          actions:  [
+          title: Center(
+              child: Text(
+            "Shopping Mall",
+            style: LocalStorage.buildTextStyle(appBar: "appBar"),
+          )),
+          actions: [
             InkWell(
               child: const Padding(
                 padding: EdgeInsets.only(right: 8.0),
@@ -70,7 +74,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   size: 30,
                 ),
               ),
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyCartScreen()),
@@ -83,7 +87,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           padding: const EdgeInsets.only(left: 18.0, right: 18, top: 25),
           child: BlocProvider(
             create: (_) => _newsBloc,
-            child: BlocListener<ProductListBloc, productListState>(
+            child: BlocListener<ProductListBloc, ProductListState>(
               listener: (context, state) {
                 if (state is ProductListError) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -93,7 +97,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   );
                 }
               },
-              child: BlocBuilder<ProductListBloc, productListState>(
+              child: BlocBuilder<ProductListBloc, ProductListState>(
                 builder: (context, state) {
                   if (state is ProductListInitial) {
                     return _buildLoading();
@@ -112,7 +116,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
           ),
         ));
   }
-
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
 
@@ -143,10 +146,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         children: [
                           Container(
                               height: 130,
-                              width: 150, // MediaQuery.of(context).size.height,
+                              width: 150,
                               decoration: _buildContainerBoxDecoration(),
                               child: Image.network(
-                                model.data?[index].featuredImage ?? "assets/images/emptypng.png",
+                                model.data?[index].featuredImage ??
+                                    "assets/images/emptypng.png",
                                 fit: BoxFit.fitHeight,
                               )),
                           Container(
@@ -165,7 +169,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   child: SizedBox(
                                     width: 100,
                                     child: Text(
-                                      model.data?[index].title ?? "",style: LocalStorage.buildTextStyle(),
+                                      model.data?[index].title ?? "",
+                                      style: LocalStorage.buildTextStyle(),
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
                                       maxLines: 1,
@@ -189,9 +194,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 ),
                 onTap: () {
                   int q = 1;
-                  for (int i=0;i<cartList.length;i++) {
+                  for (int i = 0; i < cartList.length; i++) {
                     if (cartList[i].id == model.data?[index].id) {
-                    q =  cartList[i].quantity ?? 1;
+                      q = cartList[i].quantity ?? 1;
                       q += 1;
                       cartList.removeAt(i);
                     }
@@ -207,7 +212,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   box.write("localCartData", cartList);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyCartScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const MyCartScreen()),
                   );
                 },
               )),
@@ -223,7 +229,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
           : const SizedBox(),
     ]);
   }
-
 
   BoxDecoration _buildContainerBoxDecoration() {
     return BoxDecoration(

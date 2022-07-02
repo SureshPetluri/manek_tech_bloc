@@ -5,7 +5,7 @@ class ApiProvider {
   final String getURL =
       "http://205.134.254.135/~mobile/MtProject/public/api/product_list.php";
 
-  Future<ProductListingModel> getCardData(int pageNumber) async {
+  Future<ProductListingModel> getProductsData(int pageNumber) async {
     final queryParams = {
       'page': pageNumber,
       'perPage': 5,
@@ -20,18 +20,13 @@ class ApiProvider {
         }),
         queryParameters: queryParams,
       );
-      print("medicine in api.....${res.data}");
-      ProductListingModel medicine = dashBoardModelFromJson(res.data);
+      ProductListingModel productList = dashBoardModelFromJson(res.data);
 
-      print("medicine in api.....$medicine");
-      print("dfgjdkgjdkgjdkfjhdkjvb.....${medicine.data?[0]?.id}");
-
-      return medicine;
+      return productList;
     } catch (e) {
       throw Exception('Failed to load medicine');
     }
   }
-
 }
 
 class NetworkError extends Error {}
