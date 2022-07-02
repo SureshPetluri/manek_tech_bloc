@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import '../model/product_listing_model.dart';
 import 'package:dio/dio.dart';
 
