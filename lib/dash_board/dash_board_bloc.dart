@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../api_provider/api_provider.dart';
 import '../repository/repository.dart';
 import 'dash_board_event.dart';
@@ -13,11 +12,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       try {
         emit(CartLoading());
         final mList = await apiRepository.fetchCartList();
-        print("mList.....$mList");
         emit(CartLoaded(mList));
-        // if (mList.error != null) {
-        //   emit(CartError(mList.error));
-        // }
       } on NetworkError {
         emit(const CartError("Failed to fetch data. is your device online?"));
       }

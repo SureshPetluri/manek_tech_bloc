@@ -17,7 +17,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   final CartBloc _newsBloc = CartBloc();
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool loading = false, allLoaded = false;
 
   List<String> items = [];
@@ -115,7 +115,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         ));
   }
 
-  Widget _buildLoading() => Center(child: CircularProgressIndicator());
+  Widget _buildLoading() => const Center(child:  CircularProgressIndicator());
 
   Stack buildProductShowGridView(DashBoardModel model) {
     return Stack(children: [
@@ -200,7 +200,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
        Positioned(
            left: 0,
            bottom: 0,
-           child: Container(
+           child: SizedBox(
              height: 80,
             // width: constraints.maxWidth,
              child: _buildLoading(),

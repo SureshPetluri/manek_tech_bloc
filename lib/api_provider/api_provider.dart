@@ -1,4 +1,3 @@
-import 'package:http/http.dart';
 import '../model/dash_board_model.dart';
 import 'package:dio/dio.dart';
 
@@ -21,34 +20,13 @@ class ApiProvider {
         }),
         queryParameters: queryParams,
       );
-      print("medicine in api.....${res.data}");
       DashBoardModel medicine = dashBoardModelFromJson(res.data);
-
-      print("medicine in api.....$medicine");
-      print("dfgjdkgjdkgjdkfjhdkjvb.....${medicine.data?[0]?.id}");
 
       return medicine;
     } catch (e) {
       throw Exception('Failed to load medicine');
     }
   }
-  // Future<DashBoardModel> getCardData() async {
-  //   final queryParams = {
-  //     'param1': 'one',
-  //     'param2': 'two',
-  //   };
-  //     Response res = await http.get(Uri.parse(getURL,));
-  //
-  //     if (res.statusCode == 200) {
-  //       var medicine = dashBoardModelFromJson(res.body);
-  //       print("dfgjdkgjdkgjdkfjhdkjvb.....${medicine.data?[0]?.id}");
-  //       return medicine;
-  //     } else {
-  //       throw Exception('Failed to load medicine');
-  //     }
-  //
-  // }
-
 }
 
 class NetworkError extends Error {}
