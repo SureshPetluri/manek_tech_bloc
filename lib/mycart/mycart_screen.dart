@@ -13,12 +13,16 @@ class MyCartScreen extends StatefulWidget {
 
 class _MyCartScreenState extends State<MyCartScreen> {
   List<LocalStorageCartModel> cartList = [];
+  List<LocalStorageCartModel> cartList1 = [];
   final box = GetStorage();
 
   @override
   void initState() {
     super.initState();
-    cartList = LocalStorage.getListDeviceFromStorage();
+    cartList1.clear();
+    cartList1 = LocalStorage.getListDeviceFromStorage();
+    cartList.clear();
+    cartList.addAll(cartList1.reversed);
   }
 
   int quantityGetting() {
