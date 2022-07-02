@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manek_tech/dash_board/dash_board_bloc.dart';
+import 'package:manek_tech/themes/themes.dart';
 
 import 'dash_board/dash_board_screen.dart';
 import 'dash_board_detail/dash_board_detail_screen.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: ThemeColors.primaryColor,
         ),
         home: const DashBoardScreen(),
       ),

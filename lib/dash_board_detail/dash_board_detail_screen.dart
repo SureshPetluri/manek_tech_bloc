@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manek_tech/model/dash_board_model.dart';
+import '../themes/themes.dart';
 
 class DashBoardDetailScreen extends StatelessWidget {
    DashBoardDetailScreen(this.data, {Key? key} ) : super(key: key);
@@ -29,7 +30,7 @@ class DashBoardDetailScreen extends StatelessWidget {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
                                 bottomLeft: Radius.circular(10.0)),
-                           // color: Colors.blue,
+
                           ),
                           height: MediaQuery.of(context).size.width * 0.3,
                           width: MediaQuery.of(context).size.width * 0.35,
@@ -58,7 +59,7 @@ class DashBoardDetailScreen extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding:
-                                      EdgeInsets.only(bottom: 8.0, right: 18),
+                                      const EdgeInsets.only(bottom: 8.0, right: 18),
                                   child: Text("\$${data?.price}"),
                                 ),
                               ],
@@ -84,7 +85,7 @@ class DashBoardDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 )
               ],
@@ -94,10 +95,9 @@ class DashBoardDetailScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         height: 50,
-        color: Color(0x890EABED),
+        color: ThemeColors.lightBlueColor,
         child: ListTile(
           leading: const Text("Total Items: 1"),
-          //title: const Text("GrandTotal : "),
           trailing: Text("GrandTotal :       ${data?.price}"),
         ),
       ),

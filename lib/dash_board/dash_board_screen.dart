@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manek_tech/dash_board_detail/dash_board_detail_screen.dart';
 
 import '../model/dash_board_model.dart';
+import '../themes/themes.dart';
 import 'dash_board_bloc.dart';
 import 'dash_board_event.dart';
 import 'dash_board_state.dart';
@@ -152,7 +153,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(10),
                                   bottomRight: Radius.circular(10)),
-                              color: Colors.white,
+                              color: ThemeColors.whiteColor,
                             ),
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Row(
