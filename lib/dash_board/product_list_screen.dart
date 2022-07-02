@@ -1,5 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:manek_tech/model/local_storage_model.dart';
 import 'package:manek_tech/mycart/mycart_screen.dart';
 import '../model/product_listing_model.dart';
 import '../themes/themes.dart';
@@ -17,12 +21,13 @@ class ProductListScreen extends StatefulWidget {
 class _ProductListScreenState extends State<ProductListScreen> {
   final ProductListBloc _newsBloc = ProductListBloc();
   final ScrollController _scrollController = ScrollController();
-  bool loading = false, allLoaded = false, reachEnd = true;
-
+  bool reachEnd = true;
+  List<LocalStorageCartModel> cartList = [];
   List<String> items = [];
   List<ProductListingModel> listModel = [];
   dynamic totalRecords = 0;
 
+  final box = GetStorage();
   _listener() async {
     final scroll = _scrollController.position.minScrollExtent;
     if (_scrollController.offset >= scroll) {
@@ -175,11 +180,26 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                 ),
                 onTap: () {
+                  //cartList = getListDeviceFromStorage();
+                  int q = 1;
+                  for (int i=0;i<cartList.length;i++) {
+                    if (cartList[i].productName == model.data?[index].title) {
+                    q =  cartList[i].quantity ?? 1;
+                      q += 1;
+                      cartList.removeAt(i);
+
+                    }
+                  }
+                  cartList.add(LocalStorageCartModel(
+                      price: model.data?[index].price,
+                      productImage: model.data?[index].featuredImage,
+                      productName: model.data?[index].title,
+                      quantity: q));
+                  box.remove("localCartData");
+                  box.write("localCartData", cartList);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            MyCartScreen(model.data?[index])),
+                    MaterialPageRoute(builder: (context) => MyCartScreen()),
                   );
                 },
               )),
@@ -194,6 +214,18 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ))
           : const SizedBox(),
     ]);
+  }
+
+  List<LocalStorageCartModel> getListDeviceFromStorage() {
+    if (box.read("localCartData") is List<LocalStorageCartModel>) {
+      return box.read("localCartData");
+    } else {
+      List<dynamic>? lst = box.read("localCartData");
+
+      List<LocalStorageCartModel>? tempListElse =
+          lst?.map((e) => LocalStorageCartModel.fromJson(e)).toList();
+      return tempListElse ?? [];
+    }
   }
 
   BoxDecoration _buildContainerBoxDecoration() {

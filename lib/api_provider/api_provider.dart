@@ -7,7 +7,7 @@ class ApiProvider {
 
   Future<ProductListingModel> getCardData() async {
     final queryParams = {
-      'page': 1,
+      'page': 2,
       'perPage': 5,
     };
 
