@@ -43,6 +43,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -71,8 +72,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   topLeft: Radius.circular(10.0),
                                   bottomLeft: Radius.circular(10.0)),
                             ),
-                            height: MediaQuery.of(context).size.width * 0.3,
-                            width: MediaQuery.of(context).size.width * 0.35,
+                            height:125,
+                            width: width>400 ? width* 0.3:width*0.35,
                             child: Image.network(
                               cartList[index].productImage ??
                                   "assets/images/emptypng.png",
@@ -149,7 +150,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return alert(context, index);
+                  return _alert(context, index);
                 },
               );
             }),
@@ -167,7 +168,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
     );
   }
 
-  AlertDialog alert(BuildContext context, int index) {
+  AlertDialog _alert(BuildContext context, int index) {
     return AlertDialog(
       title: const Text("Remove Item"),
       content: const Text("Are you sure you want to remove this item?"),
