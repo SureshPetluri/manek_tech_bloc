@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:manek_tech/dash_board/product_list_bloc.dart';
+import 'package:manek_tech/product/product_list_bloc.dart';
+import 'package:manek_tech/product/product_list_screen.dart';
 import 'package:manek_tech/themes/themes.dart';
-
-import 'dash_board/product_list_screen.dart';
 
 void main()async {
   await GetStorage.init();
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: ThemeColors.primaryColor,
         ),
-        home: const ProductListScreen(),
+        home:  const ProductListScreen(),
       ),
     );
   }
