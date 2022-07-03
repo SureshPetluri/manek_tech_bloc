@@ -1,4 +1,4 @@
-import 'package:manek_tech/model/product_listing_model.dart';
+import 'package:ecommerce_app/model/product_listing_model.dart';
 import '../api_provider/api_provider.dart';
 
 class ApiRepository {

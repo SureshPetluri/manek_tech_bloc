@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:manek_tech/model/product_listing_model.dart';
+import 'package:ecommerce_app/model/product_listing_model.dart';
 
 abstract class ProductListState extends Equatable {
   const ProductListState();

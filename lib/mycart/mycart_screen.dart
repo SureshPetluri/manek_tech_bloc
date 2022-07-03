@@ -20,7 +20,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
   void initState() {
     super.initState();
     cartList1.clear();
-    cartList1 = LocalStorage.getListDeviceFromStorage();
+    cartList1 = AppUtils.getListDeviceFromStorage();
     cartList.clear();
     cartList.addAll(cartList1.reversed);
   }
@@ -49,7 +49,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
         title: Center(
             child: Text(
           "My Cart",
-          style: LocalStorage.buildTextStyle(appBar: "appBar"),
+          style: AppUtils.buildTextStyle(appBar: "appBar"),
         )),
       ),
       body: ListView.builder(
@@ -90,7 +90,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                     bottom: 8.0, left: 14.0),
                                 child: Text(
                                   cartList[index].productName ?? "",
-                                  style: LocalStorage.buildTextStyle(),
+                                  style: AppUtils.buildTextStyle(),
                                 ),
                               ),
                               Row(
@@ -103,7 +103,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         bottom: 8.0, left: 14),
                                     child: Text(
                                       "Price",
-                                      style: LocalStorage.buildTextStyle(),
+                                      style: AppUtils.buildTextStyle(),
                                     ),
                                   ),
                                   Padding(
@@ -111,7 +111,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         bottom: 8.0, right: 18.0),
                                     child: Text(
                                         "\$${cartList[index].quantity! * cartList[index].price!}",
-                                        style: LocalStorage.buildTextStyle()),
+                                        style: AppUtils.buildTextStyle()),
                                   ),
                                 ],
                               ),
@@ -123,14 +123,14 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                     padding: const EdgeInsets.only(
                                         bottom: 8.0, left: 14),
                                     child: Text("Quantity",
-                                        style: LocalStorage.buildTextStyle()),
+                                        style: AppUtils.buildTextStyle()),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         bottom: 8.0, right: 18),
                                     child: Text(
                                         "${cartList[index].quantity ?? 1}",
-                                        style: LocalStorage.buildTextStyle()),
+                                        style: AppUtils.buildTextStyle()),
                                   ),
                                 ],
                               ),
@@ -160,9 +160,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
         color: ThemeColors.lightBlueColor,
         child: ListTile(
           leading: Text("Total Items: ${quantityGetting()}",
-              style: LocalStorage.buildTextStyle()),
+              style: AppUtils.buildTextStyle()),
           trailing: Text("GrandTotal :   ${totalPrice()}",
-              style: LocalStorage.buildTextStyle()),
+              style: AppUtils.buildTextStyle()),
         ),
       ),
     );

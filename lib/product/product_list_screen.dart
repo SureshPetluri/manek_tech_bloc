@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:manek_tech/model/local_storage_model.dart';
-import 'package:manek_tech/mycart/mycart_screen.dart';
-import 'package:manek_tech/utils/utils.dart';
+import 'package:ecommerce_app/model/local_storage_model.dart';
+import 'package:ecommerce_app/mycart/mycart_screen.dart';
+import 'package:ecommerce_app/utils/utils.dart';
 import '../model/product_listing_model.dart';
 import '../themes/themes.dart';
 import 'product_list_bloc.dart';
@@ -63,7 +63,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           title: Center(
               child: Text(
             "Shopping Mall",
-            style: LocalStorage.buildTextStyle(appBar: "appBar"),
+            style: AppUtils.buildTextStyle(appBar: "appBar"),
           )),
           actions: [
             InkWell(
@@ -170,7 +170,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                     width: 100,
                                     child: Text(
                                       model.data?[index].title ?? "",
-                                      style: LocalStorage.buildTextStyle(),
+                                      style: AppUtils.buildTextStyle(),
                                       overflow: TextOverflow.ellipsis,
                                       softWrap: false,
                                       maxLines: 1,
@@ -201,7 +201,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       cartList.removeAt(i);
                     }
                   }
-                  cartList = LocalStorage.getListDeviceFromStorage();
+                  cartList = AppUtils.getListDeviceFromStorage();
                   cartList.add(LocalStorageCartModel(
                       id: model.data?[index].id,
                       price: model.data?[index].price,

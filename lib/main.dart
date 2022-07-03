@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:manek_tech/product/product_list_bloc.dart';
-import 'package:manek_tech/product/product_list_screen.dart';
-import 'package:manek_tech/themes/themes.dart';
+import 'product/product_list_bloc.dart';
+import 'product/product_list_screen.dart';
+import 'themes/themes.dart';
+
 
 void main()async {
   await GetStorage.init();

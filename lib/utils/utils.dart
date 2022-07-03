@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import '../model/local_storage_model.dart';
 
-class LocalStorage {
+class AppUtils {
   static var box = GetStorage();
   static List<LocalStorageCartModel> getListDeviceFromStorage() {
     if (box.read("localCartData") is List<LocalStorageCartModel>) {
