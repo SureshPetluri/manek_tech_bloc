@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import '../model/local_storage_model.dart';
+import '../sqflite_db/sqflite_db.dart';
 import '../themes/themes.dart';
 import '../utils/utils.dart';
 
@@ -14,15 +14,21 @@ class MyCartScreen extends StatefulWidget {
 class _MyCartScreenState extends State<MyCartScreen> {
   List<LocalStorageCartModel> cartList = [];
   List<LocalStorageCartModel> cartList1 = [];
-  final box = GetStorage();
-
+  final dbHelper = DatabaseHelper.instance;
+  List<Map<String, dynamic>> allRows = [];
   @override
   void initState() {
     super.initState();
+
     cartList1.clear();
-    cartList1 = AppUtils.getListDeviceFromStorage();
+    _query();
+  }
+
+  void _query() async {
+    cartList1 = await AppUtils.getListDeviceFromStorage();
     cartList.clear();
     cartList.addAll(cartList1.reversed);
+    setState(() {});
   }
 
   int quantityGetting() {
@@ -54,106 +60,108 @@ class _MyCartScreenState extends State<MyCartScreen> {
       ),
       body: ListView.builder(
         itemCount: cartList.length,
-        itemBuilder: (context, index) => InkWell(
-            child: Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
-              child: Column(
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0)),
-                            ),
-                            height:125,
-                            width: width>400 ? width* 0.3:width*0.35,
-                            child: Image.network(
-                              cartList[index].productImage ??
-                                  "assets/images/emptypng.png",
-                              fit: BoxFit.fitHeight,
-                            )),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 8.0, left: 14.0),
-                                child: Text(
-                                  cartList[index].productName ?? "",
-                                  style: AppUtils.buildTextStyle(),
+        itemBuilder: (context, index) {
+          return InkWell(
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
+                child: Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    bottomLeft: Radius.circular(10.0)),
+                              ),
+                              height: 125,
+                              width: width > 400 ? width * 0.3 : width * 0.35,
+                              child: Image.network(
+                                cartList[index].productImage ??
+                                    "assets/images/emptypng.png",
+                                fit: BoxFit.fitHeight,
+                              )),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8.0, left: 14.0),
+                                  child: Text(
+                                    cartList[index].productName ?? "",
+                                    style: AppUtils.buildTextStyle(),
+                                  ),
                                 ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0, left: 14),
-                                    child: Text(
-                                      "Price",
-                                      style: AppUtils.buildTextStyle(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 8.0, left: 14),
+                                      child: Text(
+                                        "Price",
+                                        style: AppUtils.buildTextStyle(),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0, right: 18.0),
-                                    child: Text(
-                                        "\$${cartList[index].quantity! * cartList[index].price!}",
-                                        style: AppUtils.buildTextStyle()),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0, left: 14),
-                                    child: Text("Quantity",
-                                        style: AppUtils.buildTextStyle()),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 8.0, right: 18),
-                                    child: Text(
-                                        "${cartList[index].quantity ?? 1}",
-                                        style: AppUtils.buildTextStyle()),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 8.0, right: 18.0),
+                                      child: Text(
+                                          "\$${cartList[index].quantity! * cartList[index].price!}",
+                                          style: AppUtils.buildTextStyle()),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 8.0, left: 14),
+                                      child: Text("Quantity",
+                                          style: AppUtils.buildTextStyle()),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom: 8.0, right: 18),
+                                      child: Text(
+                                          "${cartList[index].quantity ?? 1}",
+                                          style: AppUtils.buildTextStyle()),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  )
-                ],
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
               ),
-            ),
-            onLongPress: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return _alert(context, index);
-                },
-              );
-            }),
+              onLongPress: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return _alert(context, index);
+                  },
+                );
+              });
+        },
       ),
       bottomNavigationBar: Container(
         height: 50,
@@ -182,17 +190,21 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 },
                 child: const Text("Cancel")),
             TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  _delete(cartList[index].productId ?? 0);
                   cartList.removeAt(index);
-                  box.remove("localCartData");
-                  box.write("localCartData", cartList);
-                  Navigator.pop(context);
                   setState(() {});
+
+                  Navigator.pop(context);
                 },
                 child: const Text("Remove")),
           ],
         )
       ],
     );
+  }
+
+  void _delete(int index) async {
+    await dbHelper.delete(index);
   }
 }

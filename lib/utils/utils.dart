@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import '../model/local_storage_model.dart';
+import '../sqflite_db/sqflite_db.dart';
 
 class AppUtils {
-  static var box = GetStorage();
-  static List<LocalStorageCartModel> getListDeviceFromStorage() {
-    if (box.read("localCartData") is List<LocalStorageCartModel>) {
-      return box.read("localCartData");
-    } else {
-      List<dynamic>? lst = box.read("localCartData");
+  static final dbHelper = DatabaseHelper.instance;
+  static Future<List<LocalStorageCartModel>> getListDeviceFromStorage() async {
+    List<Map<String, dynamic>>? lst = await dbHelper.queryAllRows();
 
-      List<LocalStorageCartModel>? tempListElse =
-          lst?.map((e) => LocalStorageCartModel.fromJson(e)).toList();
-      return tempListElse ?? [];
-    }
+    List<LocalStorageCartModel> tempListElse =
+        lst.map((e) => LocalStorageCartModel.fromJson(e)).toList();
+    return tempListElse;
   }
 
   static TextStyle buildTextStyle({String? appBar}) => TextStyle(

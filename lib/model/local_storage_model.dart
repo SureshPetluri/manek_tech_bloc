@@ -8,13 +8,13 @@ String localStorageCartModelToJson(LocalStorageCartModel data) =>
 
 class LocalStorageCartModel {
   LocalStorageCartModel({
-    this.id,
+    this.productId,
     this.productName,
     this.productImage,
     this.price,
     this.quantity,
   });
-  int? id;
+  int? productId;
   String? productName;
   String? productImage;
   int? price;
@@ -22,7 +22,7 @@ class LocalStorageCartModel {
 
   factory LocalStorageCartModel.fromJson(Map<String, dynamic> json) =>
       LocalStorageCartModel(
-        id: json["id"],
+        productId: json["productId"],
         productName: json["productName"],
         productImage: json["productImage"],
         price: json["price"],
@@ -30,7 +30,7 @@ class LocalStorageCartModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "productId": productId,
         "productName": productName,
         "productImage": productImage,
         "price": price,

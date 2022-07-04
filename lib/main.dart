@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_storage/get_storage.dart';
 import 'product/product_list_bloc.dart';
 import 'product/product_list_screen.dart';
 import 'themes/themes.dart';
 
-
-void main()async {
-  await GetStorage.init();
+void main() async {
   runApp(const MyApp());
 }
 
@@ -19,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>ProductListBloc()),
+        BlocProvider(create: (context) => ProductListBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -27,9 +24,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: ThemeColors.primaryColor,
         ),
-        home:  const ProductListScreen(),
+        home: const ProductListScreen(),
       ),
     );
   }
 }
-
